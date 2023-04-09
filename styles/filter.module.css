@@ -1,0 +1,19 @@
+@import "@fontsource/jetbrains-mono";
+
+.filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  border-radius: 0 0 40px 40px;
+  background-image: url("../public/map-waves.png");
+  background-position: center;
+  background-position-y: 65%;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  height: 9.25rem;
+  font-family: "JetBrains Mono";
+  font-size: 2.50rem;
+  font-weight: 600;
+  background-color: black;
+}
