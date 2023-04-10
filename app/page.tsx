@@ -12,6 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [earthquakes, setEarthquakes] = useState([]);
+  const [color, setColor] = useState("bg-orange-500"); 
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -25,81 +26,25 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <div className="flex w-[90vw] px-24">
-        <Filter/>
+      <div className="flex">
+        <Filter />
       </div>
-      <div className={styles.grid}>
-        <div className={styles.card}>
-          <div className={styles.magnitudeLabel}>7.5</div>
-
-          <div className={styles.city}>
-          <h2 className={inter.className}>
-              Sincan, Ankara
-            </h2>
-          </div>
+      <div className="sm:w-full lg:container justify-center flex flex-wrap gap-6 w-full sm:h-16">
+        <div className="flex flex-row h-full shadow-lg sm:w-6/12 lg:w-2/12 border border-blac rounded-xl bg-white">
+          <div className={`flex justify-center items-center w-4/12 h-ful rounded-xl ${color}`}>7.5</div>
+          <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-xl">City, City</div>
         </div>
-        <div className={styles.card}>
-          <div className={styles.magnitudeLabel}>7.5</div>
-
-          <div className={styles.city}>
-          <h2 className={inter.className}>
-              Sincan, Ankara
-            </h2>
-          </div>
+        <div className="flex flex-row h-full shadow-lg sm:w-6/12 lg:w-2/12 border border-blac rounded-xl bg-white">
+          <div className={`flex justify-center items-center w-4/12 h-ful rounded-xl ${color}`}>7.5</div>
+          <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-xl">City, City</div>
         </div>
-        <div className={styles.card}>
-          <div className={styles.magnitudeLabel}>7.5</div>
-
-          <div className={styles.city}>
-          <h2 className={inter.className}>
-              Sincan, Ankara
-            </h2>
-          </div>
+        <div className="flex flex-row h-full shadow-lg sm:w-6/12 lg:w-2/12 border border-blac rounded-xl bg-white">
+          <div className={`flex justify-center items-center w-4/12 h-ful rounded-xl ${color}`}>7.5</div>
+          <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-xl">City, City</div>
         </div>
-        <div className={styles.card}>
-          <div className={styles.magnitudeLabel}>7.5</div>
-
-          <div className={styles.city}>
-          <h2 className={inter.className}>
-              Sincan, Ankara
-            </h2>
-          </div>
-        </div>
-        <div className={styles.card}>
-          <div className={styles.magnitudeLabel}>7.5</div>
-
-          <div className={styles.city}>
-          <h2 className={inter.className}>
-              Sincan, Ankara
-            </h2>
-          </div>
-        </div>
-        <div className={styles.card}>
-          <div className={styles.magnitudeLabel}>7.5</div>
-
-          <div className={styles.city}>
-          <h2 className={inter.className}>
-              Sincan, Ankara
-            </h2>
-          </div>
-        </div>
-        <div className={styles.card}>
-          <div className={styles.magnitudeLabel}>7.5</div>
-
-          <div className={styles.city}>
-          <h2 className={inter.className}>
-              Sincan, Ankara
-            </h2>
-          </div>
-        </div>
-        <div className={styles.card}>
-          <div className={styles.magnitudeLabel}>7.5</div>
-
-          <div className={styles.city}>
-          <h2 className={inter.className}>
-              Sincan, Ankara
-            </h2>
-          </div>
+        <div className="flex flex-row h-full shadow-lg sm:w-6/12 lg:w-2/12 border border-blac rounded-xl bg-white">
+          <div className={`flex justify-center items-center w-4/12 h-ful rounded-xl ${color}`}>7.5</div>
+          <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-xl">City, City</div>
         </div>
       </div>
     </main>
