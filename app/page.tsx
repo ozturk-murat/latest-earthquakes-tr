@@ -1,89 +1,64 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getEarthquakes } from "./api/earthquakeList";
-
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import styles from "./page.module.css";
 import Filter from "./components/filter";
+import { getEarthquakes, Earthquake } from "./api/earthquakeList";
+import Spinner from "./components/spinner";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
-  const [earthquakes, setEarthquakes] = useState([]);
+interface EarthquakeListProps {}
+
+export default function Home(props: EarthquakeListProps) {
+  const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
+  const [loading, setLoading] = useState(true);
   const [color, setColor] = useState("bg-orange-500");
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const data = await getEarthquakes();
-      setEarthquakes(data);
+    getEarthquakes().then((earthquakes) => {
+      setEarthquakes(earthquakes);
+      setLoading(false);
+
       console.log("data", earthquakes);
-    };
-    fetchUsers();
+    });
   }, []);
+
+  if (loading) {
+    return (
+      <main className="flex justify-center items-center h-screen">
+        <Spinner />
+      </main>
+    );
+  }
 
   return (
     <main className="flex flex-col items-center h-screen md:container md:mx-auto">
-
       <div className="container">
         <Filter />
       </div>
-
       <div className="container">
         <div className="w-full border-b my-10 border-gray-400"></div>
       </div>
-
-      <div className="sm:w-full lg:container justify-between space-x-0 flex flex-wrap w-full sm:h-16">
-        <div className="flex flex-row h-full shadow-lg sm:w-3/12 lg:w-2/12 border border-blac rounded-md bg-white">
+      <div className="sm:w-full lg:container grid grid-cols-3 gap-5 space-x-0 space-y-0 h-32">
+        {earthquakes.map((earthquakeLists) => (
           <div
-            className={`flex justify-center items-center w-4/12 h-ful rounded-md text-white ${color}`}
+            key={earthquakeLists.id}
+            className="flex flex-row h-20 shadow-lg border border-blac rounded-md bg-white"
           >
-            7.5
+            <div
+              className={`flex justify-center items-center w-2/12 h-ful rounded-md text-white ${color}`}
+            >
+              {earthquakeLists.properties.mag}
+            </div>
+            <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-md">
+              {earthquakeLists.properties.place &&
+                earthquakeLists.properties.place.substring(
+                  earthquakeLists.properties.place.indexOf("of") +2
+                )}
+            </div>
           </div>
-          <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-md">
-            City, City
-          </div>
-        </div>
-        <div className="flex flex-row h-full shadow-lg sm:w-3/12 lg:w-2/12 border border-blac rounded-md bg-white">
-          <div
-            className={`flex justify-center items-center w-4/12 h-ful rounded-md text-white ${color}`}
-          >
-            7.5
-          </div>
-          <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-md">
-            City, City
-          </div>
-        </div>
-        <div className="flex flex-row h-full shadow-lg sm:w-3/12 lg:w-2/12 border border-blac rounded-md bg-white">
-          <div
-            className={`flex justify-center items-center w-4/12 h-ful rounded-md text-white ${color}`}
-          >
-            7.5
-          </div>
-          <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-md">
-            City, City
-          </div>
-        </div>
-        <div className="flex flex-row h-full shadow-lg sm:w-3/12 lg:w-2/12 border border-blac rounded-md bg-white">
-          <div
-            className={`flex justify-center items-center w-4/12 h-ful rounded-md text-white ${color}`}
-          >
-            7.5
-          </div>
-          <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-md">
-            City, City
-          </div>
-        </div>
-        <div className="flex flex-row h-full shadow-lg sm:w-3/12 lg:w-2/12 border border-blac rounded-md bg-white">
-          <div
-            className={`flex justify-center items-center w-4/12 h-ful rounded-md text-white ${color}`}
-          >
-            7.5
-          </div>
-          <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-md">
-            City, City
-          </div>
-        </div>
+        ))}
       </div>
     </main>
   );
