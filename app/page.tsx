@@ -35,19 +35,24 @@ export default function Home(props: EarthquakeListProps) {
 
   function getMagColor(mag: number): string {
     const colors = [
-      "bg-green-600",
-      "bg-cyan-600",
-      "bg-blue-600",
+      "bg-gray-500",
+      "bg-blue-500",
       "bg-yellow-500",
-      "bg-red-600",
       "bg-orange-500",
+      "bg-orange-700",
+      "bg-red-500",
       "bg-red-700",
       "bg-purple-800",
     ];
   
-    const index = Math.min(Math.max(Math.floor(mag), 0), 9);
-    const colorIndex = Math.floor((index / 10) * colors.length);
-    return colors[colorIndex];
+    if (mag < 0 || mag > 10) {
+      return colors[0];
+    } else {
+      const index = Math.round((mag / 10) * colors.length);
+      console.log("indez", colors[index]);
+      
+      return colors[index];
+    }
   }
   
 
