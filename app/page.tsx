@@ -20,15 +20,18 @@ interface Magnitude {
 export default function Home(props: EarthquakeListProps) {
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
   const [filteredData, setFilteredData] = useState<Earthquake[]>([]);
-  const [selectedMagnitude, setSelectedMagnitude] = useState<Magnitude>({ id: 1, value: 0 });
-  const [filteredDataValue, setFilteredDataValue] = useState(0)
+  const [selectedMagnitude, setSelectedMagnitude] = useState<Magnitude>({
+    id: 1,
+    value: 0,
+  });
+  const [filteredDataValue, setFilteredDataValue] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getEarthquakes().then((earthquakes) => {
       setEarthquakes(earthquakes);
       setLoading(false);
-      setFilteredDataValue(earthquakes.length)
+      setFilteredDataValue(earthquakes.length);
       console.log("data", earthquakes);
     });
   }, []);
@@ -37,12 +40,13 @@ export default function Home(props: EarthquakeListProps) {
     if (selectedMagnitude === null) {
       setFilteredData(earthquakes);
     } else {
-      const filtered = earthquakes.filter((earthquake) => earthquake.properties.mag >= selectedMagnitude.value);
-      setFilteredDataValue(filtered.length)
+      const filtered = earthquakes.filter(
+        (earthquake) => earthquake.properties.mag >= selectedMagnitude.value
+      );
+      setFilteredDataValue(filtered.length);
       setFilteredData(filtered);
     }
   }, [selectedMagnitude, earthquakes]);
-
 
   if (loading) {
     return (
@@ -63,17 +67,16 @@ export default function Home(props: EarthquakeListProps) {
       "bg-red-700",
       "bg-purple-800",
     ];
-  
+
     if (mag < 0 || mag > 10) {
       return colors[0];
     } else {
       const index = Math.round((mag / 10) * colors.length);
       console.log("indez", colors[index]);
-      
+
       return colors[index];
     }
   }
-  
 
   return (
     <main className="flex flex-col items-center h-screen md:container md:mx-auto">
@@ -83,7 +86,12 @@ export default function Home(props: EarthquakeListProps) {
       <div className="container">
         <div className="w-full border-b my-10 border-gray-400"></div>
       </div>
-      <div className="container justify-start items-start italic mb-5 text-gray-500 text-sm">Listed below are {filteredDataValue} recent earthquakes</div>
+      <div className="container justify-start items-start italic mb-5 text-gray-500 text-sm">
+        Listed below are {filteredDataValue} recent earthquakes
+        <p className=" justify-start items-start italic mb-5 text-gray-500 text-xs">
+          This data is provided by USGS. Please note that some data may not include location details.
+        </p>
+      </div>
       <div className="sm:w-full  lg:container grid grid-cols-3 gap-5 space-x-0 space-y-0 h-32">
         {filteredData.map((earthquakeLists) => (
           <div
