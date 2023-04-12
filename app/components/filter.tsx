@@ -3,6 +3,9 @@ import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { JetBrains_Mono } from "next/font/google";
+import { Dispatch, SetStateAction } from "react";
+import { Earthquake } from "../api/earthquakeList";
+
 import styles from "../../styles/header.module.css";
 
 const inter = JetBrains_Mono({ subsets: ["latin"] });
@@ -10,46 +13,57 @@ const inter = JetBrains_Mono({ subsets: ["latin"] });
 const people = [
   {
     id: 1,
+    value: 1,
     magnitude: "0 & above",
   },
   {
     id: 2,
+    value: 2,
     magnitude: "1 & above",
   },
   {
     id: 3,
+    value: 3,
     magnitude: "2 & above",
   },
   {
     id: 4,
+    value: 4,
     magnitude: "3 & above",
   },
   {
     id: 5,
+    value: 5,
     magnitude: "4 & above",
   },
   {
     id: 6,
+    value: 6,
     magnitude: "5 & above",
   },
   {
     id: 7,
+    value: 7,
     magnitude: "6 & above",
   },
   {
     id: 8,
+    value: 8,
     magnitude: "7 & above",
   },
   {
     id: 9,
+    value: 9,
     magnitude: "8 & above",
   },
   {
     id: 10,
+    value: 10,
     magnitude: "9 & above",
   },
   {
     id: 11,
+    value: 11,
     magnitude: "10 & above",
   },
 ];
@@ -57,12 +71,22 @@ function classNames(...classes: [any]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Filter() {
-  const [selected, setSelected] = useState(people[3]);
+interface Props {
+  onFilterChange: (selectedValue: number) => void
+}
+
+export default function Filter({ onFilterChange }: Props) {
+  const [selected, setSelected] = useState<number>(0);
+
+  const handleSelection = (value: number) => {
+    setSelected(value)
+    onFilterChange(value)
+  }
+
   return (
     <div className="flex container mt-10">
       <div className="flex flex-col lg:w-3/12 justify-start">
-        <Listbox value={selected} onChange={setSelected}>
+        <Listbox value={selected} onChange={handleSelection}>
           {({ open }) => (
             <div className="flex flex-col w-full">
               <Listbox.Label className="block text-sm w-full font-medium leading-10 text-gray-900">
@@ -72,7 +96,7 @@ export default function Filter() {
                 <Listbox.Button className="w-full h-12 cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
                   <span className="flex items-center">
                     <span className="ml-3 block truncate">
-                      {selected.magnitude}
+                      {selected}
                     </span>
                   </span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
@@ -147,3 +171,7 @@ export default function Filter() {
     </div>
   );
 }
+function onFilterChange(value: number) {
+  throw new Error("Function not implemented.");
+}
+

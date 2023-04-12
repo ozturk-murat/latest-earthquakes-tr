@@ -10,9 +10,13 @@ import classNames from "classnames";
 const inter = Inter({ subsets: ["latin"] });
 
 interface EarthquakeListProps {}
+interface FilterProps {
+  setFilteredData: React.Dispatch<React.SetStateAction<Earthquake[]>>;
+}
 
 export default function Home(props: EarthquakeListProps) {
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
+  const [filteredData, setFilteredData] = useState<Earthquake[]>([]);
   const [loading, setLoading] = useState(true);
   const [color, setColor] = useState("bg-orange-500");
 
@@ -20,10 +24,14 @@ export default function Home(props: EarthquakeListProps) {
     getEarthquakes().then((earthquakes) => {
       setEarthquakes(earthquakes);
       setLoading(false);
-
-      console.log("data", earthquakes);
+      setFilteredData(earthquakes);
+      console.log("data", filteredData);
     });
   }, []);
+
+  const handleFilterChange = (selectedValue: number) => {
+    setFilteredData(earthquakes.filter((earthquakes) => earthquakes.properties.mag >= selectedValue))
+  }
 
   if (loading) {
     return (
@@ -40,7 +48,7 @@ export default function Home(props: EarthquakeListProps) {
       "bg-yellow-500",
       "bg-orange-500",
       "bg-orange-700",
-      "bg-red-500",
+      "bg-red-00",
       "bg-red-700",
       "bg-purple-800",
     ];
@@ -59,13 +67,13 @@ export default function Home(props: EarthquakeListProps) {
   return (
     <main className="flex flex-col items-center h-screen md:container md:mx-auto">
       <div className="container">
-        <Filter />
+        <Filter onFilterChange={handleFilterChange}/>
       </div>
       <div className="container">
         <div className="w-full border-b my-10 border-gray-400"></div>
       </div>
       <div className="sm:w-full  lg:container grid grid-cols-3 gap-5 space-x-0 space-y-0 h-32">
-        {earthquakes.map((earthquakeLists) => (
+        {filteredData.map((earthquakeLists) => (
           <div
             key={earthquakeLists.id}
             className="flex flex-row h-20 shadow-lg border border-blac rounded-md bg-white"
