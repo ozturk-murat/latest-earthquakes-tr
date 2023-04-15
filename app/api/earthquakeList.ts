@@ -5,7 +5,6 @@ const earthquakeApi: AxiosInstance = axios.create({
   baseURL: 'https://earthquake.usgs.gov/fdsnws/event/1/',
   headers: {
     'Content-Type': 'application/json',
-    'Accept-Charset': 'utf-8',
   }
 });
 
@@ -28,8 +27,6 @@ export async function getEarthquakes(): Promise<Earthquake[]> {
     });
 
     const data = response.data;
-
-    console.log(' Data:', data.toString('utf-8'));
 
     if (data && data.features) {
       const fetchedEarthquakes = data.features.map((feature: any) => {

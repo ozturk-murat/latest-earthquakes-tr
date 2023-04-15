@@ -72,7 +72,6 @@ export default function Home(props: EarthquakeListProps) {
       return colors[0];
     } else {
       const index = Math.round((mag / 10) * colors.length);
-      console.log("indez", colors[index]);
 
       return colors[index];
     }
