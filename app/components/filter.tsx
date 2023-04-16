@@ -3,13 +3,6 @@ import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { JetBrains_Mono } from "next/font/google";
-import { Dispatch, SetStateAction } from "react";
-import { Earthquake } from "../api/earthquakeList";
-
-import styles from "../../styles/header.module.css";
-import Card from "./detailsCard";
-
-const inter = JetBrains_Mono({ subsets: ["latin"] });
 
 export interface Magnitude {
   id: number;
@@ -51,6 +44,7 @@ export default function Filter({ setSelectedMagnitude }: FilterProps) {
     setSelected(value)
     setSelectedMagnitude(value);
   };
+  
 
   return (
     <div className="flex container mt-10">
@@ -219,8 +213,6 @@ export default function Filter({ setSelectedMagnitude }: FilterProps) {
           )}
         </Listbox>
       </div>
-
-      <Card/>
     </div>
   );
 }

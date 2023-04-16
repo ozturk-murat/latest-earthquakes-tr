@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Filter from "./components/filter";
 import { getEarthquakes, Earthquake } from "./api/earthquakeList";
 import Spinner from "./components/spinner";
+import Card from "./components/detailsCard";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function Home(props: EarthquakeListProps) {
   });
   const [filteredDataValue, setFilteredDataValue] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getEarthquakes().then((earthquakes) => {
@@ -47,6 +49,18 @@ export default function Home(props: EarthquakeListProps) {
       setFilteredData(filtered);
     }
   }, [selectedMagnitude, earthquakes]);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    console.log("modal status", showModal);
+  }, [showModal]);
 
   if (loading) {
     return (
@@ -88,29 +102,36 @@ export default function Home(props: EarthquakeListProps) {
       <div className="container justify-start items-start italic mb-5 text-gray-500 text-sm">
         Listed below are {filteredDataValue} recent earthquakes
         <p className=" justify-start items-start italic mb-5 text-gray-500 text-xs">
-          This data is provided by USGS. Please note that some data may not include location details.
+          This data is provided by USGS. Please note that some data may not
+          include location details.
         </p>
       </div>
       <div className="sm:w-full  lg:container grid grid-cols-3 gap-5 space-x-0 space-y-0 h-32">
         {filteredData.map((earthquakeLists) => (
-          <div
-            key={earthquakeLists.id}
-            className="flex flex-row h-20 shadow-lg border border-blac rounded-md bg-white"
-          >
+          <>
             <div
-              className={`flex justify-center items-center w-2/12 h-ful rounded-md text-white ${getMagColor(
-                earthquakeLists.properties.mag
-              )}`}
+              key={earthquakeLists.id}
+              className="flex flex-row h-20 shadow-lg border border-blac cursor-pointer rounded-md bg-white"
+              onClick={handleOpenModal}
             >
-              {earthquakeLists.properties.mag}
+              <div
+                className={`flex justify-center items-center w-2/12 h-ful rounded-md text-white ${getMagColor(
+                  earthquakeLists.properties.mag
+                )}`}
+              >
+                {earthquakeLists.properties.mag}
+              </div>
+              <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-md">
+                {earthquakeLists.properties.place &&
+                  earthquakeLists.properties.place.substring(
+                    earthquakeLists.properties.place.indexOf("of") + 2
+                  )}
+              </div>
             </div>
-            <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-md">
-              {earthquakeLists.properties.place &&
-                earthquakeLists.properties.place.substring(
-                  earthquakeLists.properties.place.indexOf("of") + 2
-                )}
-            </div>
-          </div>
+            {showModal && (
+              <Card onClose={handleCloseModal}/>
+            )}
+          </>
         ))}
       </div>
     </main>
