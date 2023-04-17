@@ -4,13 +4,16 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { JetBrains_Mono } from "next/font/google";
 import { Dispatch, SetStateAction } from "react";
-import { Earthquake } from "../api/earthquakeList";
 
 import styles from "../../styles/header.module.css";
 interface ModalProps {
+  earthqakesDetails: any;
   onClose: () => void;
 }
-export default function Card({ onClose }: ModalProps) {
+
+export default function Card({ onClose, earthqakesDetails }: ModalProps) {
+
+console.log("sds", earthqakesDetails.properties.mag);
   return (
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center`}
@@ -54,7 +57,7 @@ export default function Card({ onClose }: ModalProps) {
               <span className="text-gray-600">Saat:</span> <span>13:27:34</span>
             </li>
             <li className="flex justify-between items-center mb-2">
-              <span className="text-gray-600">Büyüklük:</span> <span>4.5</span>
+              <span className="text-gray-600">Büyüklük:</span> <span>{earthqakesDetails.properties.mag}</span>
             </li>
             <li className="flex justify-between items-center mb-2">
               <span className="text-gray-600">Derinlik:</span>{" "}
