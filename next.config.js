@@ -7,7 +7,7 @@ const nextConfig = {
     appDir: true,
   },
   env: {
-    googleMapApiKey: 'AIzaSyCRqcLoOQnRgPdnHa-Ov3z9zJDHrT1HMMM',
+    googleMapApiKey: 'AIzaSyCaY69_AUM4NLoMDwD2k-CKyNJLHirTyog',
   },
 }
 
