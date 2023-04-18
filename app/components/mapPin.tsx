@@ -18,7 +18,7 @@ const MapPin: React.FC<Props> = ({ data }) => {
   };
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: process.env.googleMapApiKey || "",
+    googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_API || "",
   });
   
   const renderMap = () => {
