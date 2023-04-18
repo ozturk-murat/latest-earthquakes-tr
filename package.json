@@ -12,6 +12,7 @@
     "@fontsource/jetbrains-mono": "^4.5.12",
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.17",
+    "@react-google-maps/api": "^2.18.1",
     "@types/node": "18.15.11",
     "@types/react": "18.0.33",
     "@types/react-dom": "18.0.11",
@@ -21,8 +22,8 @@
     "eslint-config-next": "13.3.0",
     "iconv-lite": "^0.6.3",
     "next": "13.3.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "typescript": "5.0.4"
   },
   "devDependencies": {

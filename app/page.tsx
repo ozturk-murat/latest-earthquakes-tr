@@ -4,9 +4,15 @@ import { Inter } from "next/font/google";
 import Filter from "./components/filter";
 import { getEarthquakes, Earthquake } from "./api/earthquakeList";
 import Spinner from "./components/spinner";
-import Card from "./components/detailsCard";
+import ListBox from "./components/listBox";
 
-const inter = Inter({ subsets: ["latin"] });
+type EarthquakeData = {
+  id: string;
+  title: string;
+  place: string;
+  mag: number;
+  // Eksik olan diğer veriler buraya eklenebilir.
+};
 
 interface EarthquakeListProps {}
 interface FilterProps {
@@ -18,27 +24,22 @@ interface Magnitude {
   value: number;
 }
 
-export default function Home(props: EarthquakeListProps) {
+const Page = () => {
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
-  const [filteredData, setFilteredData] = useState<Earthquake[]>([]);
-  const [selectedMagnitude, setSelectedMagnitude] = useState<Magnitude>({
-    id: 1,
-    value: 0,
-  });
-  const [filteredDataValue, setFilteredDataValue] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [filteredDataValue, setFilteredDataValue] = useState<number>(0);
 
   useEffect(() => {
-    getEarthquakes().then((earthquakes) => {
-      setEarthquakes(earthquakes);
+    getEarthquakes().then((earthquake) => {
+      setEarthquakes(earthquake);
       setLoading(false);
       setFilteredDataValue(earthquakes.length);
-      console.log("data", earthquakes);
+      console.log("dada", earthquake);
+      
     });
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (selectedMagnitude === null) {
       setFilteredData(earthquakes);
     } else {
@@ -48,19 +49,7 @@ export default function Home(props: EarthquakeListProps) {
       setFilteredDataValue(filtered.length);
       setFilteredData(filtered);
     }
-  }, [selectedMagnitude, earthquakes]);
-
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  useEffect(() => {
-    console.log("modal status", showModal);
-  }, [showModal]);
+  }, [selectedMagnitude, earthquakes]);*/
 
   if (loading) {
     return (
@@ -70,31 +59,10 @@ export default function Home(props: EarthquakeListProps) {
     );
   }
 
-  function getMagColor(mag: number): string {
-    const colors = [
-      "bg-gray-500",
-      "bg-blue-500",
-      "bg-yellow-500",
-      "bg-orange-500",
-      "bg-orange-700",
-      "bg-red-00",
-      "bg-red-700",
-      "bg-purple-800",
-    ];
-
-    if (mag < 0 || mag > 10) {
-      return colors[0];
-    } else {
-      const index = Math.round((mag / 10) * colors.length);
-
-      return colors[index];
-    }
-  }
-  
   return (
     <main className="flex flex-col items-center h-screen md:container md:mx-auto">
       <div className="container">
-        <Filter setSelectedMagnitude={setSelectedMagnitude} />
+        <Filter />
       </div>
       <div className="container">
         <div className="w-full border-b my-10 border-gray-400"></div>
@@ -106,34 +74,9 @@ export default function Home(props: EarthquakeListProps) {
           include location details.
         </p>
       </div>
-      <div className="sm:w-full  lg:container grid grid-cols-3 gap-5 space-x-0 space-y-0 h-32">
-        {filteredData.map((earthquakeLists) => (
-          <div key={earthquakeLists.id}>
-            <div
-              key={earthquakeLists.id}
-              className="flex flex-row h-20 shadow-lg border border-blac cursor-pointer rounded-md bg-white"
-              onClick={handleOpenModal}
-            >
-              <div
-                className={`flex justify-center items-center w-2/12 h-ful rounded-md text-white ${getMagColor(
-                  earthquakeLists.properties.mag
-                )}`}
-              >
-                {earthquakeLists.properties.mag}
-              </div>
-              <div className="flex justify-start px-10 items-center w-10/12 h-full rounded-md">
-                {earthquakeLists.properties.place &&
-                  earthquakeLists.properties.place.substring(
-                    earthquakeLists.properties.place.indexOf("of") + 2
-                  )}
-              </div>
-            </div>
-            {showModal && (
-              <Card earthqakesDetails={earthquakeLists} onClose={handleCloseModal}/>
-            )}
-          </div>
-        ))}
-      </div>
+      <ListBox data={earthquakes} />
     </main>
   );
-}
+};
+
+export default Page;
