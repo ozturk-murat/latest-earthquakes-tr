@@ -16,12 +16,11 @@ const MapPin: React.FC<Props> = ({ data }) => {
     lat: data.geometry.coordinates[0],
     lng: data.geometry.coordinates[1],
   };
-
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyCRqcLoOQnRgPdnHa-Ov3z9zJDHrT1HMMM",
+    googleMapsApiKey: process.env.googleMapApiKey || "",
   });
-
+  
   const renderMap = () => {
     return (
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>

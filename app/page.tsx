@@ -33,7 +33,7 @@ const Page = () => {
     getEarthquakes().then((earthquake) => {
       setEarthquakes(earthquake);
       setLoading(false);
-      setFilteredDataValue(earthquakes.length);
+      setFilteredDataValue(earthquake.length);
       console.log("dada", earthquake);
       
     });
