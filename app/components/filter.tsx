@@ -34,13 +34,14 @@ type Number = {
 };
 
 interface FilterProps {
-  //setSelectedMagnitude: React.Dispatch<React.SetStateAction<Magnitude>>;
+  setSelectedMagnitude: React.Dispatch<React.SetStateAction<Magnitude>>;
 }
 
-export default function Filter({  }: FilterProps) {
+export default function Filter({ setSelectedMagnitude }: FilterProps) {
   const [selected, setSelected] = useState(numbers[0]);
 
-  const handleChange = (value: { id: number; value: number }) => {
+  const handleChange = (value: { id: number, value: number }) => {
+    setSelectedMagnitude(value);
     setSelected(value)
   };
   

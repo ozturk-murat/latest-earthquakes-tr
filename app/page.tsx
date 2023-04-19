@@ -28,28 +28,28 @@ const Page = () => {
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [filteredDataValue, setFilteredDataValue] = useState<number>(0);
+  const [selectedMagnitude, setSelectedMagnitude] = useState<Magnitude>({ id: 1, value: 0 });
+  const [filteredMagData, setFilteredMagData] = useState<Earthquake[]>([]);
 
   useEffect(() => {
     getEarthquakes().then((earthquake) => {
       setEarthquakes(earthquake);
       setLoading(false);
       setFilteredDataValue(earthquake.length);
-      console.log("dada", earthquake);
-      
+      setFilteredMagData(earthquake)
     });
   }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (selectedMagnitude === null) {
-      setFilteredData(earthquakes);
+      setFilteredMagData(earthquakes);
     } else {
-      const filtered = earthquakes.filter(
-        (earthquake) => earthquake.properties.mag >= selectedMagnitude.value
-      );
-      setFilteredDataValue(filtered.length);
-      setFilteredData(filtered);
+      const filtered = earthquakes.filter((earthquake) => earthquake.properties.mag >= selectedMagnitude.value);
+      setFilteredMagData(filtered);
+      console.log("filteredMagData", filteredMagData);
+      
     }
-  }, [selectedMagnitude, earthquakes]);*/
+  }, [selectedMagnitude, earthquakes]);
 
   if (loading) {
     return (
@@ -62,19 +62,19 @@ const Page = () => {
   return (
     <main className="flex flex-col items-center h-screen md:container md:mx-auto">
       <div className="container">
-        <Filter />
+        <Filter setSelectedMagnitude={setSelectedMagnitude}/>
       </div>
       <div className="container">
         <div className="w-full border-b my-10 border-gray-400"></div>
       </div>
       <div className="container justify-start items-start italic mb-5 text-gray-500 text-sm">
-        Listed below are {filteredDataValue} recent earthquakes
+        Listed below are {filteredMagData ? filteredMagData.length : earthquakes.length} recent earthquakes
         <p className=" justify-start items-start italic mb-5 text-gray-500 text-xs">
           This data is provided by USGS. Please note that some data may not
           include location details.
         </p>
       </div>
-      <ListBox data={earthquakes} />
+      <ListBox data={filteredMagData? filteredMagData : earthquakes} />
     </main>
   );
 };
