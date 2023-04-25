@@ -2,7 +2,7 @@
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { JetBrains_Mono } from "next/font/google";
+import Datepicker from "react-tailwindcss-datepicker";
 
 export interface Magnitude {
   id: number;
@@ -39,12 +39,20 @@ interface FilterProps {
 
 export default function Filter({ setSelectedMagnitude }: FilterProps) {
   const [selected, setSelected] = useState(numbers[0]);
+  const [value, setValue] = useState({
+    startDate: new Date('2023-04-25'), 
+    endDate: new Date('2023-05-25') 
+  });
 
-  const handleChange = (value: { id: number, value: number }) => {
+  const handleValueChange = (newValue: any) => {
+    console.log("newValue:", newValue);
+    setValue(newValue);
+}
+
+  const handleChange = (value: { id: number; value: number }) => {
     setSelectedMagnitude(value);
-    setSelected(value)
+    setSelected(value);
   };
-  
 
   return (
     <div className="flex container mt-10">
@@ -56,7 +64,7 @@ export default function Filter({ setSelectedMagnitude }: FilterProps) {
                 Magnitude
               </Listbox.Label>
               <div className="relative mt-2">
-              <Listbox.Button className="relative h-12 w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                <Listbox.Button className="relative h-12 w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
                   <span className="flex items-center">
                     <span className="ml-3 block truncate">
                       {selected.value}
@@ -83,7 +91,7 @@ export default function Filter({ setSelectedMagnitude }: FilterProps) {
                         className={({ active }) =>
                           classNames(
                             active
-                              ? "bg-indigo-600 text-white py-2 pl-3 pr-9"
+                              ? "bg-indigo-600 text-white py-2 pl-3"
                               : "text-gray-900 relative cursor-default select-none py-2 pl-3 pr-9"
                           )
                         }
@@ -96,7 +104,7 @@ export default function Filter({ setSelectedMagnitude }: FilterProps) {
                                 className={classNames(
                                   selected
                                     ? "font-semibold"
-                                    : "font-normal ml-3 block truncate"
+                                    : "font-normal block truncate"
                                 )}
                               >
                                 {mag.value}
@@ -108,7 +116,7 @@ export default function Filter({ setSelectedMagnitude }: FilterProps) {
                                 className={classNames(
                                   active
                                     ? "text-white"
-                                    : "text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4"
+                                    : "text-indigo-600 absolute inset-y-0 right-0 flex items-center"
                                 )}
                               >
                                 <CheckIcon
@@ -128,9 +136,15 @@ export default function Filter({ setSelectedMagnitude }: FilterProps) {
           )}
         </Listbox>
       </div>
-
       <div className="flex justify-center items-end">
         <div className="mx-10 border-l border-gray-400 h-12"></div>
+      </div>
+
+      <div className="flex flex-col lg:w-9/12">
+      <Datepicker
+                value={value}
+                onChange={handleValueChange}
+            />
       </div>
     </div>
   );

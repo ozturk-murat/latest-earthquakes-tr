@@ -40,7 +40,7 @@ const ListBox = ({ data }: Props) => {
       return colors[0];
     } else {
       const index = Math.round((mag / 10) * colors.length);
-
+      
       return colors[index];
     }
   }
