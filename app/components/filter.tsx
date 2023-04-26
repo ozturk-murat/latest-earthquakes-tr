@@ -1,12 +1,17 @@
 "use client";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import Datepicker from "react-tailwindcss-datepicker";
+import { getEarthquakes, Earthquake } from "../api/earthquakeList";
 
 export interface Magnitude {
   id: number;
   value: number;
+}
+
+interface FilterProps {
+  onChange: (startDate: Date, endDate: Date) => Promise<void>;
 }
 
 const numbers = [
@@ -40,14 +45,23 @@ interface FilterProps {
 export default function Filter({ setSelectedMagnitude }: FilterProps) {
   const [selected, setSelected] = useState(numbers[0]);
   const [value, setValue] = useState({
-    startDate: new Date('2023-04-25'), 
-    endDate: new Date('2023-05-25') 
+    startDate: new Date("2023-04-23"),
+    endDate: new Date("2023-04-01"),
   });
 
-  const handleValueChange = (newValue: any) => {
+  const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
+
+  const handleFilter = async (newValue: any) => {
     console.log("newValue:", newValue);
     setValue(newValue);
-}
+    const { startDate, endDate } = value;
+    const fetchedEarthquakes = await getEarthquakes(startDate, endDate);
+    setEarthquakes(fetchedEarthquakes);
+  };
+
+  useEffect(() => {
+    handleFilter(value);
+  }, [value]);
 
   const handleChange = (value: { id: number; value: number }) => {
     setSelectedMagnitude(value);
@@ -140,11 +154,11 @@ export default function Filter({ setSelectedMagnitude }: FilterProps) {
         <div className="mx-10 border-l border-gray-400 h-12"></div>
       </div>
 
-      <div className="flex flex-col lg:w-9/12">
-      <Datepicker
-                value={value}
-                onChange={handleValueChange}
-            />
+      <div className="flex flex-col lg:w-4/12">
+        <label className="leading-10">test</label>
+        <div className="mt-2 h-12">
+          <Datepicker value={value} onChange={handleFilter} />
+        </div>
       </div>
     </div>
   );

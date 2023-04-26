@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import iconv from 'iconv-lite';
+import dayjs from 'dayjs';
 
 const earthquakeApi: AxiosInstance = axios.create({
   baseURL: 'https://earthquake.usgs.gov/fdsnws/event/1/',
@@ -14,7 +14,9 @@ export interface Earthquake {
   geometry: any;
 }
 
-export async function getEarthquakes(): Promise<Earthquake[]> {
+export async function getEarthquakes(startDate: Date, endDate: Date): Promise<Earthquake[]> {
+  console.log("istek?", startDate, endDate);
+  
   try {
     const response = await earthquakeApi.get('/query', {
       params: {
@@ -23,6 +25,8 @@ export async function getEarthquakes(): Promise<Earthquake[]> {
         maxlatitude: 42,
         minlongitude: 26,
         maxlongitude: 45,
+        starttime: dayjs(startDate).format('YYYY-MM-DD'),
+        endtime: dayjs(endDate).format('YYYY-MM-DD'),
       }
     });
 

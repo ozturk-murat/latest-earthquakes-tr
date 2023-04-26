@@ -32,13 +32,21 @@ const Page = () => {
   const [filteredMagData, setFilteredMagData] = useState<Earthquake[]>([]);
 
   useEffect(() => {
-    getEarthquakes().then((earthquake) => {
-      setEarthquakes(earthquake);
+    const fetchEarthquakes = async () => {
+      const earthquakes = await getEarthquakes(startDate, endDate);
+      setEarthquakes(earthquakes);
       setLoading(false);
-      setFilteredDataValue(earthquake.length);
-      setFilteredMagData(earthquake)
-    });
-  }, []);
+      setFilteredDataValue(earthquakes.length);
+      console.log("data", earthquakes);
+    };
+  
+    fetchEarthquakes();
+  }, [startDate, endDate]);
+
+  const handleFilterChange = async (startDate: Date, endDate: Date) => {
+    const fetchedEarthquakes = await getEarthquakes(startDate, endDate);
+    setEarthquakes(fetchedEarthquakes);
+  };
 
   useEffect(() => {
     if (selectedMagnitude === null) {
@@ -49,7 +57,7 @@ const Page = () => {
       console.log("filteredMagData", filteredMagData);
       
     }
-  }, [selectedMagnitude, earthquakes]);
+  }, [selectedMagnitude, earthquakes, getEarthquakes]);
 
   if (loading) {
     return (
@@ -62,7 +70,7 @@ const Page = () => {
   return (
     <main className="flex flex-col items-center h-screen md:container md:mx-auto">
       <div className="container">
-        <Filter setSelectedMagnitude={setSelectedMagnitude}/>
+        <Filter setSelectedMagnitude={setSelectedMagnitude} onChange={handleFilterChange}/>
       </div>
       <div className="container">
         <div className="w-full border-b my-10 border-gray-400"></div>
