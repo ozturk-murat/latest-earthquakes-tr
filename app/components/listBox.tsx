@@ -46,7 +46,7 @@ const ListBox = ({ data }: Props) => {
   }
 
   return (
-    <div className="sm:w-full  lg:container grid grid-cols-3 gap-5 space-x-0 space-y-0 h-32">
+    <div className=" lg:container grid md:grid-cols-3 sm:grid-cols-2 gap-5 space-x-0 space-y-0 h-32">
       {data.map((item) => (
         <div key={item.id} onClick={() => handleClick(item)}>
           <div
