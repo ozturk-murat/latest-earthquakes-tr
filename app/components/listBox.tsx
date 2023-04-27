@@ -28,10 +28,10 @@ const ListBox = ({ data }: Props) => {
     const colors = [
       "bg-gray-500",
       "bg-blue-500",
+      "bg-yellow-300",
+      "bg-yellow-400",
       "bg-yellow-500",
-      "bg-orange-500",
-      "bg-orange-700",
-      "bg-red-00",
+      "bg-red-500",
       "bg-red-700",
       "bg-purple-800",
     ];

@@ -15,8 +15,7 @@ export interface Earthquake {
 }
 
 export async function getEarthquakes(startDate: Date, endDate: Date): Promise<Earthquake[]> {
-  console.log("istek?", startDate, endDate);
-  
+
   try {
     const response = await earthquakeApi.get('/query', {
       params: {

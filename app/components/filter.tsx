@@ -4,15 +4,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import Datepicker from "react-tailwindcss-datepicker";
 import { getEarthquakes, Earthquake } from "../api/earthquakeList";
-
-export interface Magnitude {
-  id: number;
-  value: number;
-}
-
-interface FilterProps {
-  onChange: (startDate: Date, endDate: Date) => Promise<void>;
-}
+import dayjs from "dayjs";
 
 const numbers = [
   { id: 1, value: 0 },
@@ -27,26 +19,25 @@ const numbers = [
   { id: 10, value: 9 },
   { id: 11, value: 10 },
 ];
+export interface Magnitude {
+  id: number;
+  value: number;
+}
 
 function classNames(...classes: [any]) {
   return classes.filter(Boolean).join(" ");
 }
 
-type Number = {
-  id: number;
-  value: number;
-  magnitude: string;
-};
-
 interface FilterProps {
   setSelectedMagnitude: React.Dispatch<React.SetStateAction<Magnitude>>;
+  onChange: (startDate: Date, endDate: Date) => void;
 }
 
-export default function Filter({ setSelectedMagnitude }: FilterProps) {
+export default function Filter({ setSelectedMagnitude, onChange }: FilterProps) {
   const [selected, setSelected] = useState(numbers[0]);
   const [value, setValue] = useState({
-    startDate: new Date("2023-04-23"),
-    endDate: new Date("2023-04-01"),
+    startDate: dayjs().startOf('month').toDate(),
+    endDate: dayjs().toDate()
   });
 
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
@@ -59,7 +50,17 @@ export default function Filter({ setSelectedMagnitude }: FilterProps) {
     setEarthquakes(fetchedEarthquakes);
   };
 
+  const handleDateChange = (value:any) => {
+    console.log("girdi");
+    
+    const { startDate, endDate } = value;
+    setValue({ startDate, endDate });
+    onChange(startDate, endDate);
+  };
+
   useEffect(() => {
+    console.log("value", value);
+    
     handleFilter(value);
   }, [value]);
 
@@ -67,6 +68,11 @@ export default function Filter({ setSelectedMagnitude }: FilterProps) {
     setSelectedMagnitude(value);
     setSelected(value);
   };
+
+  const handleFilterChange = async () => {
+    const { startDate, endDate } = value;
+    await onChange(startDate, endDate);
+  }
 
   return (
     <div className="flex container mt-10">
@@ -157,7 +163,7 @@ export default function Filter({ setSelectedMagnitude }: FilterProps) {
       <div className="flex flex-col lg:w-4/12">
         <label className="leading-10">test</label>
         <div className="mt-2 h-12">
-          <Datepicker value={value} onChange={handleFilter} />
+          <Datepicker value={value} maxDate={dayjs().toDate()} onChange={handleDateChange} />
         </div>
       </div>
     </div>
