@@ -60,7 +60,7 @@ const Page = () => {
   }
 
   return (
-    <main className="flex flex-col items-center h-screen md:container md:mx-auto">
+    <main className="flex flex-col items-center h-screen md:container md:mx-auto px-10">
       {loading ? (
         <div className="flex justify-center items-center h-screen">
           <Spinner />
@@ -84,7 +84,7 @@ const Page = () => {
             </p>
           </div>
           <ListBox
-            data={filteredMagData.length === 0 ? earthquakes : filteredMagData}
+            data={filteredMagData.length === 0 && selectedMagnitude === null? earthquakes : filteredMagData}
           />
         </div>
       )}
