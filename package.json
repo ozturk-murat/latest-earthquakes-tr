@@ -22,12 +22,10 @@
     "dotenv": "^16.0.3",
     "eslint": "^8.39.0",
     "eslint-config-next": "13.3.0",
-    "i18next": "^22.4.15",
     "iconv-lite": "^0.6.3",
     "next": "13.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-i18next": "^12.2.2",
     "react-tailwindcss-datepicker": "^1.6.0",
     "typescript": "5.0.4"
   },
