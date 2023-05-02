@@ -4,16 +4,13 @@ import React, { useState, useEffect } from "react";
 //Utils
 import { getEarthquakes, Earthquake } from "./api/earthquakeList";
 import dayjs from "dayjs";
+import { Magnitude } from "./types/layout";
 
 //Components
 import Filter from "./components/filter";
 import Spinner from "./components/spinner";
 import ListBox from "./components/listBox";
 
-interface Magnitude {
-  id: number;
-  value: number;
-}
 
 const Page = () => {
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
