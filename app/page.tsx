@@ -20,7 +20,7 @@ const Page = () => {
     value: 0,
   });
   const [filteredMagData, setFilteredMagData] = useState<Earthquake[]>([]);
-  const defaultStartDate = dayjs().startOf("month").toDate();
+  const defaultStartDate = dayjs('2023-04-01').toDate();
   const defaultEndDate = dayjs().toDate();
 
   useEffect(() => {
