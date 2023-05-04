@@ -5,6 +5,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import Datepicker from "react-tailwindcss-datepicker";
 import { getEarthquakes, Earthquake } from "../api/earthquakeList";
 import dayjs from "dayjs";
+import { Magnitude } from "../types/layout";
 
 const numbers = [
   { id: 1, value: 0 },
@@ -19,10 +20,6 @@ const numbers = [
   { id: 10, value: 9 },
   { id: 11, value: 10 },
 ];
-export interface Magnitude {
-  id: number;
-  value: number;
-}
 
 function classNames(...classes: [any]) {
   return classes.filter(Boolean).join(" ");

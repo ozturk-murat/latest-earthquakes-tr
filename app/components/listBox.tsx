@@ -2,15 +2,6 @@
 import { useState } from "react";
 import { Earthquake } from "../api/earthquakeList";
 import Card from "./detailsCard";
-import { Transition } from '@headlessui/react'
-
-
-type EarthquakeData = {
-  id: string;
-  title: string;
-  place: string;
-  mag: number;
-};
 
 interface Props {
   data: Earthquake[];
