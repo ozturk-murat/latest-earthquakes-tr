@@ -2,14 +2,11 @@
 import { useState } from "react";
 import { Earthquake } from "../api/earthquakeList";
 import Card from "./detailsCard";
+import { ListBoxProps } from "../types/layout";
 
-interface Props {
-  data: Earthquake[];
-}
 
-const ListBox = ({ data }: Props) => {
+const ListBox = ({ data }: ListBoxProps) => {
   const [selectedItem, setSelectedItem] = useState<Earthquake | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
 
   const handleClick = (item: Earthquake) => {
     setSelectedItem(item);

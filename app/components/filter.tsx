@@ -6,28 +6,24 @@ import Datepicker from "react-tailwindcss-datepicker";
 import { getEarthquakes, Earthquake } from "../api/earthquakeList";
 import dayjs from "dayjs";
 import { Magnitude } from "../types/layout";
+import { FilterProps } from "../types/layout";
 
 const numbers = [
-  { id: 1, value: 0 },
-  { id: 2, value: 1 },
-  { id: 3, value: 2 },
-  { id: 4, value: 3 },
-  { id: 5, value: 4 },
-  { id: 6, value: 5 },
-  { id: 7, value: 6 },
-  { id: 8, value: 7 },
-  { id: 9, value: 8 },
-  { id: 10, value: 9 },
-  { id: 11, value: 10 },
+  { id: 1, value: 0, text: "& above" },
+  { id: 2, value: 1, text: "& above" },
+  { id: 3, value: 2, text: "& above" },
+  { id: 4, value: 3, text: "& above" },
+  { id: 5, value: 4, text: "& above" },
+  { id: 6, value: 5, text: "& above" },
+  { id: 7, value: 6, text: "& above" },
+  { id: 8, value: 7, text: "& above" },
+  { id: 9, value: 8, text: "& above" },
+  { id: 10, value: 9, text: "& above" },
+  { id: 11, value: 10, text: "& above" },
 ];
 
 function classNames(...classes: [any]) {
   return classes.filter(Boolean).join(" ");
-}
-
-interface FilterProps {
-  setSelectedMagnitude: React.Dispatch<React.SetStateAction<Magnitude>>;
-  onChange: (startDate: Date, endDate: Date) => void;
 }
 
 export default function Filter({ setSelectedMagnitude, onChange }: FilterProps) {
@@ -40,7 +36,6 @@ export default function Filter({ setSelectedMagnitude, onChange }: FilterProps) 
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
 
   const handleFilter = async (newValue: any) => {
-    console.log("newValue:", newValue);
     setValue(newValue);
     const { startDate, endDate } = value;
     const fetchedEarthquakes = await getEarthquakes(startDate, endDate);
@@ -48,28 +43,19 @@ export default function Filter({ setSelectedMagnitude, onChange }: FilterProps) 
   };
 
   const handleDateChange = (value:any) => {
-    console.log("girdi");
-    
     const { startDate, endDate } = value;
     setValue({ startDate, endDate });
     onChange(startDate, endDate);
   };
 
   useEffect(() => {
-    console.log("value", value);
-    
     handleFilter(value);
   }, [value]);
 
-  const handleChange = (value: { id: number; value: number }) => {
+  const handleChange = (value: { id: number; value: number, text: string }) => {
     setSelectedMagnitude(value);
     setSelected(value);
   };
-
-  const handleFilterChange = async () => {
-    const { startDate, endDate } = value;
-    await onChange(startDate, endDate);
-  }
 
   return (
     <div className="flex container mt-10">
@@ -124,7 +110,7 @@ export default function Filter({ setSelectedMagnitude, onChange }: FilterProps) 
                                     : "font-normal block truncate"
                                 )}
                               >
-                                {mag.value}
+                                {mag.value} {mag.text}
                               </span>
                             </div>
 

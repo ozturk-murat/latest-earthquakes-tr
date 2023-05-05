@@ -1,12 +1,9 @@
 import { Earthquake } from "../api/earthquakeList";
 import React, { useEffect, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { MapPinProps } from "../types/layout";
 
-interface Props {
-  data: Earthquake;
-}
-
-const MapPin: React.FC<Props> = ({ data }) => {
+const MapPin: React.FC<MapPinProps> = ({ data }) => {
   const containerStyle = {
     width: "100%",
     height: "400px",

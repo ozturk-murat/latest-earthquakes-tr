@@ -1,13 +1,9 @@
 "use client";
 import { Earthquake } from "../api/earthquakeList";
 import MapPin from "./mapPin";
+import { CardProps } from "../types/layout";
 
-interface Props {
-  data: Earthquake;
-  onClose: () => void;
-}
-
-const Card: React.FC<Props> = ({ data, onClose }) => {
+const Card: React.FC<CardProps> = ({ data, onClose }) => {
 
   function formatDate(timestamp: number) {
     const date = new Date(timestamp);
